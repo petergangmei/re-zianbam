@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Zianbam - Scocialist community</string>
+    <string name="facebook_app_id">341210813185698</string>
+    <string name="fb_login_protocol_scheme">fb341210813185698</string>
+
+    <!--custom  string-->
+    <string name="hellowWorld">Hellow world</string>
+    <string name="logOut">Logout</string>
+    <string name="LoginWithGoogle">Continue with Google</string>
+    <string name="LoginWithFacebook">Continue with Facebook</string>
+    <string name="textemail">Email</string>
+    <string name="textpassword">Password</string>
+    <string name="textpasswordConfirm">Confirm Password</string>
+    <string name="textsignin">Sign In </string>
+    <string name="textSingupWithEmail">SignUp with Email</string>
+    <string name="textor">OR</string>
+    <string name="textnext">Next</string>
+    <string name="textSignup">Sign Up</string>
+    <string name="alreadyhaveAccount">Already have an account?</string>
+    <string name="textLogin">Log In</string>
+</resources>
