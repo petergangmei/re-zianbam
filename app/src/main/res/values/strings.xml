@@ -12,10 +12,13 @@
     <string name="textpassword">Password</string>
     <string name="textpasswordConfirm">Confirm Password</string>
     <string name="textsignin">Sign In </string>
-    <string name="textSingupWithEmail">SignUp with Email</string>
+    <string name="textSinginWithEmail">Signin with Email</string>
     <string name="textor">OR</string>
     <string name="textnext">Next</string>
-    <string name="textSignup">Sign Up</string>
+    <string name="textSignup">Signup with email and passwword</string>
     <string name="alreadyhaveAccount">Already have an account?</string>
     <string name="textLogin">Log In</string>
+    <string name="SignupwithFB">Signup with facebook</string>
+    <string name="SignupwithGoogle">Signup with google</string>
+    <string name="textSingupWithEmail">Signup with email</string>
 </resources>

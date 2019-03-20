@@ -35,6 +35,7 @@ public class StartActivity extends AppCompatActivity {
     FrameLayout framlay1;
     private Button singupBtn;
     private TextView textHello, signinBtn;
+    private Button signup;
 
     //slide
     private ViewPager mSlideViewPager;
@@ -44,127 +45,31 @@ public class StartActivity extends AppCompatActivity {
     private Button nextBtn , preBtn;
     private int mCurrentPage;
 
+    //facebookgoogle loging
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Whitetheme);
         setContentView(R.layout.activity_start);
 
-if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        }
-//shareprefs
-        SharedPreferences prefs = getSharedPreferences("prefs", MODE_PRIVATE);
-//        boolean firstStart = prefs.getBoolean("firstStart", true);
-//        if (firstStart) {
-//            startActivity(new Intent(getApplicationContext(), WelcomeSlideActivity.class));
-//        }
-        videoBG = findViewById(R.id.videoView);
-        framlay1 = findViewById(R.id.framlay1);
-        singupBtn = findViewById(R.id.signupBtn);
         signinBtn = findViewById(R.id.textlogin);
-        textHello = findViewById(R.id.textHello);
-        mSlideViewPager = findViewById(R.id.viewPager);
-
-        sliderAdapter = new GreetingslideAdapter(this);
-        mSlideViewPager.setAdapter(sliderAdapter);
+        signup = findViewById(R.id.signupBtn);
 
 
+//shareprefs
 
-
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {startActivity(new Intent(getApplicationContext(), RegisterActivity.class)); overridePendingTransition(R.anim.fade_in, R.anim.fade_out);    }
+        });
         signinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-            }
+            public void onClick(View v) {startActivity(new Intent(getApplicationContext(), LoginActivity.class));  overridePendingTransition(R.anim.fade_in, R.anim.fade_out);  }
         });
 
-        showWelcomeMessage();
-       videoBackgroundActivity();
-
-    }
-
-    private void showWelcomeMessage() {
-
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                textHello.setTextSize(45);
-//                textHello.setText("Welcome to zianbam! ");
-//                textHello.append("\n");
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        textHello.append("We are glad that you came to visit us. ");
-//                        textHello.append("\n");
-//                        new Handler().postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                textHello.append("How do do come to khow about zianbam?");
-//                            }
-//                        },6000);
-//                    }
-//                },6000);
-//            }
-//        },4000);
-    }
-
-    private void videoBackgroundActivity() {
-        Uri uri = Uri.parse("android.resource://" +getPackageName()
-                +"/"
-                +R.raw.video_bg);
-        videoBG.setVideoURI(uri);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                framlay1.setVisibility(View.INVISIBLE);
-                singupBtn.setVisibility(View.VISIBLE);
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-
-            }
-        },1000);
-
-        loadvideo();
-    }
-
-    private void loadvideo() {
-        videoBG.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mMediaPlayer = mp;
-                mMediaPlayer.setVolume(0,0);
-                mMediaPlayer.setLooping(true);
-                if (mCurrentVideoPosition !=0){
-                    mMediaPlayer.seekTo(mCurrentVideoPosition);
-                    mMediaPlayer.start();
-                }
-            }
-        });
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mCurrentVideoPosition = mMediaPlayer.getCurrentPosition();
-        videoBG.pause();
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        videoBG.start();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mMediaPlayer.release();
-        mMediaPlayer = null;
     }
 }

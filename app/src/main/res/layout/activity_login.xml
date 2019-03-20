@@ -5,15 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@drawable/bg5"
+    android:background="@color/colorMyWhite"
     android:id="@+id/myLayout"
     android:layout_gravity="center"
     tools:context=".LoginActivity">
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+
 
     <ImageView
         android:layout_width="wrap_content"
@@ -27,7 +25,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/re1"
             android:layout_marginTop="0dp"
-            android:layout_marginBottom="10dp"
+            android:layout_centerInParent="true"
             android:layout_alignParentBottom="true">
 
 
@@ -36,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:paddingRight="24dp"
                 android:paddingLeft="24dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:id="@+id/lay1">
@@ -86,21 +84,10 @@
                     android:layout_marginTop="8dp"
                     android:autofillHints="@string/textpassword"
                     android:textAllCaps="false"
-                    android:textColor="#ffff"
+                    android:textColor="#000"
                     android:textStyle="bold"
                     android:background="@drawable/btn_background_signin"
-                    android:text="@string/textsignin"/>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/textor"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:fontFamily="monospace" />
+                    android:text="@string/textSinginWithEmail"/>
 
             </LinearLayout>
 
@@ -120,7 +107,6 @@
                     android:layout_height="40dp"
                     android:background="@drawable/btn_background_signup_withmail"
                     android:onClick="onClick"
-                    android:text="@string/textSingupWithEmail"
                     android:textAllCaps="false"
                     android:textColor="#ffffff"
                     android:visibility="gone"
@@ -156,6 +142,7 @@
                         android:id="@+id/fb_login_button"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
+                        android:background="@drawable/border_rectangle"
                         android:visibility="gone" />
 
                     <Button
@@ -167,8 +154,6 @@
                         android:text="@string/LoginWithFacebook"
                         android:textAllCaps="false"
                         android:textColor="#ffffff"
-                        android:gravity="fill_vertical"
-                        android:drawableLeft="@drawable/facebook"
                         android:textStyle="bold" />
                 </FrameLayout>
             </LinearLayout>

@@ -107,10 +107,6 @@ public class LoginActivity extends AppCompatActivity {
         google_login();
         email_password_login();
 
-
-        setBackgroundimage();
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                     WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
@@ -134,14 +130,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void setBackgroundimage() {
-
-//        for (i = 1; i<= image.length; ){
-//            myLayout.setBackgroundResource(image[i]);
-//            ++i;
-//        }
-
-    }
 
     private void email_password_login() {
         email_pass_signinBtn.setOnClickListener(new View.OnClickListener() {
@@ -290,9 +278,6 @@ public class LoginActivity extends AppCompatActivity {
         fb_loginBtn.setReadPermissions(Arrays.asList("email", "public_profile"));
     }
     
-    
-    //login with email and password
-
 
     //facebooklogin
     private void fb_login() {
@@ -378,8 +363,6 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-
-
     //check if your date exist in our database or not *if not exist send to account set up page
     private void CheckAccountindatabase(final String platform) {
         ref = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -405,7 +388,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
-
 
     private void showPD() {
         pd = new ProgressDialog(LoginActivity.this, R.style.pdialog_width);
@@ -437,38 +419,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-//    AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
-//        @Override
-//        protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-//        }
-//    };
-//
-//    private void UserInfo(AccessToken newAccessToken) {
-//        GraphRequest request = GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
-//            @Override
-//            public void onCompleted(JSONObject object, GraphResponse response) {
-//                try {
-//                    String first_name = object.getString("first_name");
-//                    String last_name = object.getString("last_name");
-//                    String email = object.getString("email");
-//                    String id = object.getString("id");
-//                    String image_url = "https://graph.facebook.com/"+id+"/picture?type=normal";
-//
-//                    Toast.makeText(LoginActivity.this, "Login success! p "+first_name + "p", Toast.LENGTH_SHORT).show();
-//
-//
-//                }catch (JSONException e){
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//        });
-//        Bundle parameters = new Bundle();
-//        parameters.putString("fields", "first_name, last_name, email, id");
-//        request.setParameters(parameters);
-//        request.executeAsync();
-//
-//    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
