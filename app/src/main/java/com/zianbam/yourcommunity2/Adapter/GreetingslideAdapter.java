@@ -1,6 +1,7 @@
 package com.zianbam.yourcommunity2.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -63,7 +64,9 @@ public class GreetingslideAdapter extends PagerAdapter {
         TextView slide_desc = (TextView) view.findViewById(R.id.msg);
 
         slideHeading.setText(slide_headings[position]);
+        slideHeading.setTextColor(Color.BLACK);
         slide_desc.setText(slide_descs[position]);
+        slide_desc.setTextColor(Color.GRAY);
         container.addView(view);
         return view;
     }

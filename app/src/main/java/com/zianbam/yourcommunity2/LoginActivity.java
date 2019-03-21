@@ -1,17 +1,23 @@
 package com.zianbam.yourcommunity2;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.PasswordTransformationMethod;
@@ -23,6 +29,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +38,10 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -52,6 +63,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.zianbam.yourcommunity2.Adapter.GreetingslideAdapter;
+import com.zianbam.yourcommunity2.Adapter.SliderAdapter;
 
 import org.w3c.dom.Text;
 
@@ -65,23 +78,27 @@ public class LoginActivity extends AppCompatActivity {
     private ImageView image_profile;
     private FirebaseUser firebaseUser;
     private FirebaseAuth mAuth;
-    private TextView togglePass;
+    private TextView togglePass,createAccountTexBtn;
     private DatabaseReference ref, reference;
     private GoogleSignInClient mGoogleSignInClient;
     private ProgressDialog pd;
-    public Button fb, google, email_pass_signinBtn, email_pass_signupBtn;
+    public Button fb, google, email_pass_signinBtn, email_pass_signinShowBtn;
     private EditText password_field, email_field;
-    private RelativeLayout myLayout;
-    int i;
-    int[] image = {R.drawable.bg1, R.drawable.bg2};
+    private LinearLayout loginform;
+    private RelativeLayout myLayout, re1;
+    android.support.v7.app.AlertDialog.Builder builder;
 
+    private ViewPager mSlideViewPager;
+    private GreetingslideAdapter sliderAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         super.onCreate(savedInstanceState);
-        setTheme(R.style.Whitetheme);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {setTheme(R.style.Whitetheme);}else {setTheme(R.style.AppTheme);}
+
         setContentView(R.layout.activity_login);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         mAuth = FirebaseAuth.getInstance();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -93,13 +110,25 @@ public class LoginActivity extends AppCompatActivity {
         fb = (Button) findViewById(R.id.fb);
         google = (Button) findViewById(R.id.google);
         email_pass_signinBtn = findViewById(R.id.email_pass_signinBtn);
-        email_pass_signupBtn = findViewById(R.id.email_pass_signupBtn);
+        email_pass_signinShowBtn = findViewById(R.id.email_pass_signinShowBtn);
+        createAccountTexBtn = findViewById(R.id.createAccountTexBtn);
+        loginform = findViewById(R.id.loginform);
 
         togglePass = findViewById(R.id.togglePass);
         email_field = findViewById(R.id.email_field);
         password_field = findViewById(R.id.password_field);
 
+        re1 = findViewById(R.id.re1);
+        myLayout = findViewById(R.id.myLayout);
 
+
+        mSlideViewPager = findViewById(R.id.viewPager);
+
+        sliderAdapter = new GreetingslideAdapter(this);
+        mSlideViewPager.setAdapter(sliderAdapter);
+
+        checkinternetconnection();
+        init();
         showandhidePass();
         configureFacebookLogin();
         configureGoogleLogin();
@@ -107,126 +136,166 @@ public class LoginActivity extends AppCompatActivity {
         google_login();
         email_password_login();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        }
 
-        email_field.clearFocus();
-        password_field.clearFocus();
 
-        email_pass_signupBtn.setOnClickListener(new View.OnClickListener() {
+
+
+
+        //gotoregisteractivity
+        createAccountTexBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
-                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);}
+            public void onClick(View v) {startActivity(new Intent(getApplicationContext(), RegisterActivity.class)); overridePendingTransition(R.anim.fade_in, R.anim.fade_out);   }
         });
 
+
+
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.N) {getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);}else {fb.setVisibility(View.GONE);}
+
+
+
+    }
+
+    private void checkinternetconnection() {
+        if (!isConnected(LoginActivity.this)){
+            builder = new android.support.v7.app.AlertDialog.Builder(this);
+            builder.setTitle("No Internet Connection");
+            builder.setCancelable(false);
+            builder.setMessage("You need to have Mobile Data or wifi connection to access this. Press ok to Exit");
+            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    finish();
+                    moveTaskToBack(true);
+                }
+            });
+            builder.show();
+
+        }
+    }
+
+    private void init() {
         if (firebaseUser == null){
         }else {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             Toast.makeText(this, "Log in", Toast.LENGTH_SHORT).show();
         }
-
     }
 
 
     private void email_password_login() {
+        email_pass_signinShowBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginform.setVisibility(View.VISIBLE);
+                email_pass_signinShowBtn.setVisibility(View.INVISIBLE);
+                mSlideViewPager.setVisibility(View.INVISIBLE);
+                fb.setVisibility(View.INVISIBLE);
+                google.setVisibility(View.INVISIBLE);
+            }
+        });
         email_pass_signinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                check neww or old user
-                if (!TextUtils.isEmpty(email_field.getText().toString()) &&(!TextUtils.isEmpty(password_field.getText().toString()))){
-                    email_pass_signinBtn.setEnabled(false);
 
-                    final ProgressDialog pd = new ProgressDialog(LoginActivity.this);
-                    pd.setMessage("Please wiat..");
-                    pd.show();
-                    mAuth.signInWithEmailAndPassword(email_field.getText().toString(), password_field.getText().toString())
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull final Task<AuthResult> task) {
-                                    if (task.isSuccessful()){
-                                        pd.dismiss();
-//                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-//                                Toast.makeText(StartActivity.this, "Success!", Toast.LENGTH_SHORT).show();
-                                        Toast.makeText(LoginActivity.this, "Login succes!", Toast.LENGTH_SHORT).show();
-                                    }else if (task.getException().getMessage().toString().equals("The password is invalid or the user does not have a password.")){
+                if (email_pass_signinBtn.getTag().toString().equals("login")){
 
-                                        pd.dismiss();
+                    if (!TextUtils.isEmpty(email_field.getText().toString()) && (!TextUtils.isEmpty(password_field.getText().toString()))) {
+                        email_pass_signinBtn.setEnabled(false);
 
-                                        Dialog dialog = new Dialog(LoginActivity.this);
-                                        dialog.setContentView(R.layout.dialog_simple_msg);
-                                        final TextView title = dialog.findViewById(R.id.textTitle);
-                                        final TextView msg = dialog.findViewById(R.id.textMsg);
-                                        final Button btn = dialog.findViewById(R.id.btn1);
-                                        title.setText("Error!");
-                                        title.setTextColor(Color.RED);
-                                        msg.setText("The password you entered is incorrect.");
-                                        msg.setTextColor(Color.RED);
-                                        btn.setText("Reset password");
-                                        btn.setHeight(10);
-                                        btn.setVisibility(View.VISIBLE);
-                                        dialog.show();
-                                        email_pass_signinBtn.setEnabled(true);
+                        final ProgressDialog pd = new ProgressDialog(LoginActivity.this);
+                        pd.setMessage("Please wiat..");
+                        pd.show();
+                        mAuth.signInWithEmailAndPassword(email_field.getText().toString(), password_field.getText().toString())
+                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull final Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            pd.dismiss();
+                                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                        Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(LoginActivity.this, "Login succes!", Toast.LENGTH_SHORT).show();
+                                        } else if (task.getException().getMessage().toString().equals("The password is invalid or the user does not have a password.")) {
 
-                                        btn.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                title.setText("Please wait..");
-                                                title.setTextColor(Color.BLACK);
-                                                msg.setVisibility(View.GONE);
-                                                btn.setVisibility(View.GONE);
-                                                mAuth.sendPasswordResetEmail(email_field.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if (task.isSuccessful()){
-                                                            title.setText("We have sent reset password mail to our email address "+email_field.getText().toString() +".");
+                                            pd.dismiss();
 
-                                                        }else {
-                                                            title.setText("Error!");
-                                                            msg.setText(" error: "+task.getException().getMessage().toString());
-                                                            msg.setVisibility(View.VISIBLE);
+                                            Dialog dialog = new Dialog(LoginActivity.this);
+                                            dialog.setContentView(R.layout.dialog_simple_msg);
+                                            final TextView title = dialog.findViewById(R.id.textTitle);
+                                            final TextView msg = dialog.findViewById(R.id.textMsg);
+                                            final Button btn = dialog.findViewById(R.id.btn1);
+                                            title.setText("Error!");
+                                            title.setTextColor(Color.RED);
+                                            msg.setText("The password you entered is incorrect.");
+                                            msg.setTextColor(Color.RED);
+                                            btn.setText("Reset password");
+                                            btn.setHeight(10);
+                                            btn.setVisibility(View.VISIBLE);
+                                            dialog.show();
+                                            email_pass_signinBtn.setEnabled(true);
+
+                                            btn.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    title.setText("Please wait..");
+                                                    title.setTextColor(Color.BLACK);
+                                                    msg.setVisibility(View.GONE);
+                                                    btn.setVisibility(View.GONE);
+                                                    mAuth.sendPasswordResetEmail(email_field.getText().toString()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                title.setText("We have sent reset password mail to our email address " + email_field.getText().toString() + ".");
+
+                                                            } else {
+                                                                title.setText("Error!");
+                                                                msg.setText(" error: " + task.getException().getMessage().toString());
+                                                                msg.setVisibility(View.VISIBLE);
+                                                            }
                                                         }
-                                                    }
-                                                });
+                                                    });
 
-                                            }
-                                        });
+                                                }
+                                            });
 
 
-                                    }else if (task.getException().getMessage().toString().equals("There is no user record corresponding to this identifier. The user may have been deleted.")){
+                                        } else if (task.getException().getMessage().toString().equals("There is no user record corresponding to this identifier. The user may have been deleted.")) {
 
-                                        pd.dismiss();
-                                        Dialog dialog = new Dialog(LoginActivity.this);
-                                        dialog.setContentView(R.layout.dialog_simple_msg);
-                                        final TextView title = dialog.findViewById(R.id.textTitle);
-                                        final TextView msg = dialog.findViewById(R.id.textMsg);
-                                        final Button btn = dialog.findViewById(R.id.btn1);
-                                        email_pass_signinBtn.setEnabled(true);
+                                            pd.dismiss();
+                                            Dialog dialog = new Dialog(LoginActivity.this);
+                                            dialog.setContentView(R.layout.dialog_simple_msg);
+                                            final TextView title = dialog.findViewById(R.id.textTitle);
+                                            final TextView msg = dialog.findViewById(R.id.textMsg);
+                                            final Button btn = dialog.findViewById(R.id.btn1);
+                                            email_pass_signinBtn.setEnabled(true);
 
-                                        title.setText("Warrning!");
-                                        title.setTextColor(Color.BLACK);
-                                        msg.setText("There is no user record corresponding to this email [ "+email_field.getText().toString()+ " ].");
-                                        msg.setTextColor(Color.BLACK);
-                                        msg.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
-                                        btn.setText("Create account");
-                                        btn.setHeight(10);
-                                        btn.setVisibility(View.VISIBLE);
-                                        dialog.show();
+                                            title.setText("Warrning!");
+                                            title.setTextColor(Color.BLACK);
+                                            msg.setText("There is no user record corresponding to this email [ " + email_field.getText().toString() + " ].");
+                                            msg.setTextColor(Color.BLACK);
+                                            msg.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
+                                            btn.setText("Create account");
+                                            btn.setHeight(10);
+                                            btn.setVisibility(View.VISIBLE);
+                                            dialog.show();
 
-                                        btn.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                                                intent.putExtra("email", email_field.getText().toString());
-                                                startActivity(intent);
-                                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                            }
-                                        });
+                                            btn.setOnClickListener(new View.OnClickListener() {
+                                                @Override
+                                                public void onClick(View v) {
+                                                    Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                                                    intent.putExtra("email", email_field.getText().toString());
+                                                    startActivity(intent);
+                                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                                }
+                                            });
+                                        }
                                     }
-                                }
-                            });
+                                });
+                    }
+
                 }
                 
             }
@@ -312,6 +381,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
     private void handleFacebookAccessToken(final AccessToken token) {
+        pd.setMessage("Signing In .. "+ " "+ " "+ " "+ " ");
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -355,7 +425,7 @@ public class LoginActivity extends AppCompatActivity {
                             CheckAccountindatabase("google");
 
                         } else {
-                            Toast.makeText(LoginActivity.this, "Login failed!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Login failed! "+task.getException().getMessage().toString(), Toast.LENGTH_SHORT).show();
                             pd.dismiss();
                             google_loginBtn.setVisibility(View.VISIBLE);
                         }
@@ -371,13 +441,17 @@ public class LoginActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()){
 //                    Intent intent = new Intent(LoginActivity.this, AccountSetupActivity.class);
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("loginwith", platform);
+                    Intent intent = new Intent(LoginActivity.this, AccountSetupActivity.class);
+                    intent.putExtra("from", "justsignup");
                     startActivity(intent);
+                    finish();
+                    fadein();
                     pd.dismiss();
                 }else {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
+                    fadein();
                     pd.dismiss();
 
                 }
@@ -402,6 +476,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
+        pd.setMessage("Signing In .. "+ " "+ " "+ " "+ " ");
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -412,13 +487,26 @@ public class LoginActivity extends AppCompatActivity {
 
             } catch (ApiException e) {
                 pd.dismiss();
-                Toast.makeText(this, "Google sign in Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Google signin Error: "+e.getMessage(), Toast.LENGTH_SHORT).show();
                 google_loginBtn.setVisibility(View.VISIBLE);
             }
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkinternetconnection();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+
+    }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -428,5 +516,26 @@ public class LoginActivity extends AppCompatActivity {
         return super.onTouchEvent(event);
     }
 
+    public boolean isConnected(Context context) {
+
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netinfo = cm.getActiveNetworkInfo();
+
+        if (netinfo != null && netinfo.isConnectedOrConnecting()) {
+            android.net.NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            android.net.NetworkInfo mobile = cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+            if((mobile != null && mobile.isConnectedOrConnecting()) || (wifi != null && wifi.isConnectedOrConnecting())) return true;
+            else return false;
+        } else
+            return false;
+    }
+
+
+
+
+    private void fadein() {
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
 
 }

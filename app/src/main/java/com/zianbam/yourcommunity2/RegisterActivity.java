@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,19 +30,21 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText email_field, pass1_field, pass2_field;
     private Button signup_btn;
     FirebaseAuth mAuth;
+    private ImageView back;
     String youremail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         super.onCreate(savedInstanceState);
-        setTheme(R.style.Blacktheme);
+        setTheme(R.style.Whitetheme);
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
         
         Intent intent = getIntent();
         youremail = intent.getStringExtra("email");
 
+        back = findViewById(R.id.backBtn);
         email_field = findViewById(R.id.email_field);
         pass1_field = findViewById(R.id.pass1_field);
         pass2_field = findViewById(R.id.pass2_field);
@@ -55,7 +58,12 @@ public class RegisterActivity extends AppCompatActivity {
                 regsiterUser();
             }
         });
-
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
@@ -100,7 +108,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         hashMap.put("id", mAuth.getUid());
                                         firebaseDatabase.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
+                                                public void onComplete(@NonNull Task<Void> task) {
 
                                         pd.setMessage("Proccessing..");
                                                 new Handler().postDelayed(new Runnable() {
@@ -110,11 +118,11 @@ public class RegisterActivity extends AppCompatActivity {
                                                         pd.dismiss();
                                                     }
                                                 },1500);
-//                                        startActivity(new Intent(getApplicationContext(), AccountSetupActivity.class));
-//                                                Intent intent = new Intent(getApplicationContext(), AccountSetupActivity.class);
-//                                                intent.putExtra("from", "register");
-//                                                startActivity(intent);
-//                                                finish();
+                                        startActivity(new Intent(getApplicationContext(), AccountSetupActivity.class));
+                                                Intent intent = new Intent(getApplicationContext(), AccountSetupActivity.class);
+                                                intent.putExtra("from", "register");
+                                                startActivity(intent);
+                                                finish();
                                             }
                                         });
 

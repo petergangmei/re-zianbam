@@ -21,4 +21,18 @@
     <string name="SignupwithFB">Signup with facebook</string>
     <string name="SignupwithGoogle">Signup with google</string>
     <string name="textSingupWithEmail">Signup with email</string>
+    <string name="donthaveaccount">Don\'t have account?</string>
+    <string name="createAccount">Create account</string>
+    <string name="signupBtn">Sign Up</string>
+    <string name="textAccountsetup">Account setup</string>
+    <string name="textFullname">Full name</string>
+    <string name="agreeterms">By clicking on any of this button you agree to our </string>
+    <string name="textTermsNcon">Terms and conditions.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="zianbamtext">Zianbam</string>
+    <string name="fullname_text">Full name</string>
+    <string name="female_text">Female</string>
+    <string name="show_text">show</string>
 </resources>

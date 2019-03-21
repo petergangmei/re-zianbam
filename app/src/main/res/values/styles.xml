@@ -10,11 +10,11 @@
 
     <style name="Whitetheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimary1</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark1</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:statusBarColor">@color/colorMyWhite</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark1</item>
         <item name="android:windowLightStatusBar">true</item>
 
     </style>

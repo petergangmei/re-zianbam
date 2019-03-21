@@ -1,9 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AccountSetupActivity">
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bar"
+        android:background="@drawable/custom_toolbar_background">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:contentDescription="@string/hellowWorld"
+            android:src="@drawable/left_arrow"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="@string/textAccountsetup"
+            android:paddingEnd="16dp"
+            android:paddingStart="0dp"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold"/>
+    </android.support.v7.widget.Toolbar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:id="@+id/layout_bar"
+            android:orientation="vertical"
+            android:focusableInTouchMode="true"
+            android:padding="10dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/fullname_text"
+                android:id="@+id/displayName"/>
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/gender_radio">
+                <RadioButton android:id="@+id/radio_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/female_text"
+                    android:tag="Venus"
+                    android:onClick="checkButton"/>
+                <RadioButton android:id="@+id/radio_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Male"
+                    android:tag="Mars"
+                    android:onClick="checkButton"/>
+            </RadioGroup>
 
-</android.support.constraint.ConstraintLayout>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username"
+                android:id="@+id/edit_username"
+                android:digits="qwertyuiopasdfghjklzxcvbnm_.1234567890"
+                android:maxLines="1"
+                android:maxLength="20"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/error_msg"
+                android:text="username rquired"
+                android:visibility="gone"
+                android:textColor="#ff0101"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/error_msg2"
+                android:text="username rquired"
+                android:visibility="gone"
+                android:textColor="#ff0101"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:id="@+id/continueBtn"
+                android:text="Continue"
+                android:enabled="false"
+                android:background="@drawable/btn_background_signin"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
