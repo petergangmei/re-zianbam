@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/image_profile"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/image_profile"
+        android:id="@+id/midlayou"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:tag="not_deleted"
+            android:textColor="@color/colorBlack"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/comment"
+            android:tag="not_deleted_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textSize="14sp"
+           />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timeago"
+            android:textSize="12sp"
+            />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/post_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:textSize="18sp"
+        android:textColor="@color/colorBlack"
+        android:maxLines="1"
+        android:visibility="gone"
+        android:text="Post text" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/underline_gray"
+        android:gravity="center"
+        android:padding="2dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true">
+        <ImageView
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:id="@+id/post_image"
+            android:visibility="gone"
+            android:background="@drawable/underline_gray"
+            android:src="@drawable/image_placeholder"
+            />
+    </LinearLayout>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:text=""
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"
+        android:padding="0dp"
+        android:id="@+id/followbackBtn"
+        android:background="@drawable/btn_background_simple"
+        android:textAllCaps="false"
+        />
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_toRightOf="@id/image_profile"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:id="@+id/username"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="@color/colorBlack"-->
+            <!--android:textSize="18sp"-->
+            <!--android:text="username"/>-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_toRightOf="@id/username"-->
+            <!--android:layout_marginLeft="7dp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:id="@+id/attribue"-->
+            <!--android:textSize="15sp"-->
+            <!--android:text="liked your post"/>-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_marginLeft="8dp"-->
+            <!--android:id="@+id/post_text"-->
+            <!--android:textColor="@color/colorBlack"-->
+            <!--android:layout_toRightOf="@+id/attribue"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:text="''"-->
+           <!--/>-->
+
+</RelativeLayout>

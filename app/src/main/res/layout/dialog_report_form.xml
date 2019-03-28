@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/title"
+    android:text="Report"
+    android:textSize="19sp"
+    android:textColor="@color/colorBlack"
+    android:textStyle="bold"
+    android:layout_centerHorizontal="true"/>
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/title"
+        android:id="@+id/reportCategory_radio">
+
+        <RadioButton android:id="@+id/radio_violance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Violance"
+            android:tag="Violance"
+            />
+
+        <RadioButton android:id="@+id/radio_sparm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="It's sparm"
+            android:tag="Sparm"
+           />
+        <RadioButton android:id="@+id/radio_inappropriate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inappropriate"
+            android:tag="Inappropriate"
+            />
+        <RadioButton android:id="@+id/radio_pornography"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pornography"
+            android:tag="Pornography"
+           />
+
+
+    </RadioGroup>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="50dp"
+        android:layout_below="@id/reportCategory_radio"
+        android:id="@+id/reportComment"
+        android:background="@drawable/editext_background1"
+        android:hint="Report"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_background_simple"
+        android:layout_below="@id/reportComment"
+        android:id="@+id/submitReportBtn"
+        android:enabled="false"
+        android:text="Submit report"/>
+
+</RelativeLayout>

@@ -1,102 +1,27 @@
 {
   "project_info": {
-    "project_number": "853163444125",
-    "firebase_url": "https://feature-test-database.firebaseio.com",
-    "project_id": "feature-test-database",
-    "storage_bucket": "feature-test-database.appspot.com"
+    "project_number": "1032355263060",
+    "firebase_url": "https://zianbam-testing.firebaseio.com",
+    "project_id": "zianbam-testing",
+    "storage_bucket": "zianbam-testing.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:853163444125:android:100483bcceb36c08",
-        "android_client_info": {
-          "package_name": "com.zianbam.featuretestapp"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "853163444125-qt8updiq76bpqlael86u9m4eehq5donj.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.zianbam.featuretestapp",
-            "certificate_hash": "18c86129fad471b5c2062a913fbefdb0e2092fc1"
-          }
-        },
-        {
-          "client_id": "853163444125-valhl8ffs6nhq9lnfgka7ok5d5j30349.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBXv2l9OAB82FCBsY_-b5iM0GDKQ5TmNKo"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "853163444125-valhl8ffs6nhq9lnfgka7ok5d5j30349.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:853163444125:android:03bb1618f921aae8",
+        "mobilesdk_app_id": "1:1032355263060:android:03bb1618f921aae8",
         "android_client_info": {
           "package_name": "com.zianbam.yourcommunity"
         }
       },
       "oauth_client": [
         {
-          "client_id": "853163444125-valhl8ffs6nhq9lnfgka7ok5d5j30349.apps.googleusercontent.com",
+          "client_id": "1032355263060-pc823v5a73f1l65pqrt9e2u5tskk215n.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBXv2l9OAB82FCBsY_-b5iM0GDKQ5TmNKo"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:853163444125:android:7d497df9896b19e9",
-        "android_client_info": {
-          "package_name": "com.zianbam.yourcommunity2"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "853163444125-valhl8ffs6nhq9lnfgka7ok5d5j30349.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBXv2l9OAB82FCBsY_-b5iM0GDKQ5TmNKo"
+          "current_key": "AIzaSyBEc5bgsmQbbYHXDdwZJurUrUCsy5XwZ7I"
         }
       ],
       "services": {

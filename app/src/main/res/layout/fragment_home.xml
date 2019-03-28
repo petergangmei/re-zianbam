@@ -3,11 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFF8E3"
     tools:context=".Fragments.HomeFragment">
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/custom_toolbar_background_two">
+        android:layout_height="40dp"
+        android:id="@+id/bar"
+        android:background="@drawable/custom_toolbar_background">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -23,7 +25,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
                 android:src="@drawable/zianbamtext_logo"/>
 
             <ImageView
@@ -37,6 +38,73 @@
         </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
+    <ProgressBar
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/progress_bar"
+        android:layout_centerInParent="true"/>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_below="@+id/bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_view_story"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp" />
+
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_view_post"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="55dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:id="@+id/notpostLayout"
+                android:padding="10dp"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/noentry"
+                    android:id="@+id/noentry"
+                    android:layout_gravity="center"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No post to display!"
+                    android:textColor="@color/colorBlack"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:layout_marginTop="5dp"
+                    android:textSize="18sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingRight="30dp"
+                    android:paddingLeft="30dp"
+                    android:gravity="center"
+                    android:text="Posts shared by those who are in your following list will be displayed here."/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
 
 
 </RelativeLayout>
